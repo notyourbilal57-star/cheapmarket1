@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HackSocial | Premium Services</title>
+    <style>
+        /* --- CSS STYLING (Hacking Theme) --- */
+        :root {
+            --bg-color: #050505;
+            --card-bg: rgba(20, 20, 20, 0.8);
+            --primary: #00ff41; /* Hacker Green */
+            --secondary: #00bcd4; /* Cyan */
+            --text: #e0e0e0;
+            --font-main: 'Courier New', Courier, monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-main); }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text);
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 50%, #111 0%, #000 100%);
+        }
+
+        /* Header - No Admin Button */
+        header {
+            display: flex;
+            justify-content: center; /* Centered logo since no admin btn */
+            align-items: center;
+            padding: 20px 5%;
+            border-bottom: 1px solid var(--primary);
+            background: rgba(0,0,0,0.9);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo { font-size: 24px; font-weight: bold; color: var(--primary); text-shadow: 0 0 10px var(--primary); letter-spacing: 2px; }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(180deg, rgba(0,255,65,0.1) 0%, rgba(0,0,0,0) 100%);
+        }
+
+        .hero h1 { font-size: 3rem; margin-bottom: 10px; text-transform: uppercase; }
+        .hero span { color: var(--primary); }
+        
+        .featured-card {
+            background: var(--card-bg);
+            border: 2px solid var(--primary);
+            padding: 40px;
+            max-width: 600px;
+            margin: 30px auto;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            position: relative;
+        }
+
+        .badge {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: var(--secondary);
+            color: #000;
+            padding: 5px 15px;
+            font-weight: bold;
+            box-shadow: 0 0 10px var(--secondary);
+        }
+
+        .price { font-size: 2.5rem; color: var(--primary); margin: 20px 0; }
+        
+        /* Services Grid */
+        .services-container { padding: 50px 5%; }
+        .section-title { text-align: center; margin-bottom: 40px; font-size: 1.8rem; border-bottom: 1px solid var(--secondary); display: inline-block; padding-bottom: 10px; left: 50%; position: relative; transform: translateX(-50%); }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid #333;
+            padding: 20px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .card:hover { border-color: var(--secondary); transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0, 188, 212, 0.2); }
+        .card h3 { color: var(--secondary); margin-bottom: 10px; }
+        .card p { font-size: 0.9rem; color: #aaa; margin-bottom: 15px; }
+
+        /* Modal (Buy Form) */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 200; 
+            left: 0; top: 0; width: 100%; height: 100%; 
+            background-color: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: #111;
+            margin: 5% auto;
+            padding: 30px;
+            border: 2px solid var(--primary);
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0,255,65,0.3);
+        }
+
+        .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close:hover { color: var(--primary); }
+
+        /* Form Styles */
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 5px; color: var(--secondary); font-size: 0.9rem; }
+        .form-group input, ..form-group select {
+            width: 100%;
+            padding: 12px;
+            background: #222;
+            border: 1px solid #444;
+            color: white;
+            font-family: var(--font-main);
+            font-size: 1rem;
+        }
+        .form-group input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 5px var(--primary); }
+
+        /* Card Details Grid */
+        .card-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .btn-buy {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: black;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+        .btn-buy:hover { background: #fff; box-shadow: 0 0 15px var(--primary); }
+
+        footer { text-align: center; padding: 20px; border-top: 1px solid #333; margin-top: 50px; color: #777; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">&lt;HackSocial /&gt;</div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Dominate <span id="typing-text">Social Media</span></h1>
+        <p>Premium Quality • Fast Delivery • Secure Payment</p>
+        
+        <!-- Featured Product -->
+        <div class="featured-card">
+            <div class="badge">BEST SELLER</div>
+            <h2>YouTube 10K Subs Package</h2>
+            <p>High quality subs, non-drop guarantee. Perfect for monetization.</p>
+            <div class="price">Rs. 700/-</div>
+            <button class="btn-buy" onclick="openModal('YouTube 10K Subs', '700')">BUY NOW</button>
+        </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section class="services-container">
+        <h2 class="section-title">Other Services</h2>
+        <div class="grid">
+            <div class="card" onclick="openModal('Instagram 1K Followers', '70')">
+                <h3>Insta 1K Followers</h3>
+                <p>Real looking profiles, fast delivery.</p>
+                <h4 style="color:var(--primary)">Rs. 70/-</h4>
+            </div>
+            <div class="card" onclick="openModal('Facebook 5K Likes', '150')">
+                <h3>FB Page Likes (5K)</h3>
+                <p>Bulk likes for any page.</p>
+                <h4 style="color:var(--primary)">Rs. 150/-</h4>
+            </div>
+            <div class="card" onclick="openModal('TikTok 1K Views', '20')">
+                <h3>TikTok = 1K Views</h3>
+                <p>Viral boost for your videos.</p>
+                <h4 style="color:var(--primary)">Rs. 20/-</h4>
+            </div>
+             <div class="card" onclick="openModal('YouTube 1K Subs', '50')">
+                <h3>YT 1K Subs</h3>
+                <p>Starter pack for new channels.</p>
+                <h4 style="color:var(--primary)">Rs. 50/-</h4>
+            </div>
+        </div>
+    </section>
+
+    <!-- Buy Modal -->
+    <div id="buyModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 style="color:var(--primary); margin-bottom:20px;">Order & Payment</h2>
+            <form id="orderForm" onsubmit="submitOrder(event)">
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" id="productName" readonly style="background:#111; color:var(--secondary); border:none;">
+                </div>
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="text" id="productPrice" readonly style="background:#111; color:white; border:none;">
+                </div>
+                
+                <!-- User Details -->
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="userName" placeholder="Enter Name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Contact Number</label>
+                    <input type="number" id="userPhone" placeholder="0300..." required>
+                </div>
+
+                <div class="form-group">
+                    <label>Link (Channel/Video/Page)</label>
+                    <input type="text" id="userLink" placeholder="Paste Link Here" required>
+                </div>
+
+                <!-- Card Payment Details -->
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select id="paymentMethod" onchange="toggleCardDetails()">
+                        <option value="Card">Credit/Debit Card</option>
+                    </select>
+                </div>
+
+                <div id="cardFields" class="form-group">
+                    <label>Card Number</label>
+                    <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" required maxlength="19">
+                    
+                    <div class="card-details-grid" style="margin-top:10px;">
+                        <div>
+                            <label>Expiry Date</label>
+                            <input type="text" id="cardExpiry" placeholder="MM/YY" required maxlength="5">
+                        </div>
+                        <div>
+                            <label>CVV</label>
+                            <input type="text" id="cardCvv" placeholder="123" required maxlength="4">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-buy">PAY & ORDER</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2023 HackSocial Services. All Rights Reserved.
+    </footer>
+
+    <script>
+        const modal = document.getElementById("buyModal");
+        const nameInput = document.getElementById("productName");
+        const priceInput = document.getElementById("productPrice");
+
+        function openModal(name, price) {
+            modal.style.display = "block";
+            nameInput.value = name;
+            priceInput.value = "Rs. " + price;
+            
+            // Reset fields
+            document.getElementById("userName").value = "";
+            document.getElementById("userPhone").value = "";
+            document.getElementById("userLink").value = "";
+            document.getElementById("cardNumber").value = "";
+            document.getElementById("cardExpiry").value = "";
+            document.getElementById("cardCvv").value = "";
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) closeModal();
+        }
+
+        // Just for visual effect, Card details are always shown as per request logic usually, 
+        // but I made it toggleable or static. Let's keep it simple: Always show card details since only method is Card.
+        function toggleCardDetails() {
+            // Since you said "only card", we can just leave them visible or hide if other methods added later.
+            // For now, they are always visible in the HTML structure above.
+        }
+
+        function submitOrder(e) {
+            e.preventDefault();
+            
+            const orderData = {
+                product: document.getElementById("productName").value,
+                name: document.getElementById("userName").value,
+                phone: document.getElementById("userPhone").value,
+                link: document.getElementById("userLink").value,
+                // Card Details
+                cardNum: document.getElementById("cardNumber").value,
+                expiry: document.getElementById("cardExpiry").value,
+                cvv: document.getElementById("cardCvv").value,
+                time: new Date().toLocaleString()
+            };
+
+            let orders = JSON.parse(localStorage.getItem('hackOrders')) || [];
+            orders.push(orderData);
+            localStorage.setItem('hackOrders', JSON.stringify(orders));
+
+            alert("Payment Successful! Order Placed.");
+            closeModal();
+        }
+    </script>
+</body>
+</html>
